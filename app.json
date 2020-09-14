@@ -1,0 +1,12 @@
+{
+  "name": "Wily",
+  "displayName": "Wily",
+  "expo": {
+    "name": "Wily",
+    "slug": "Wily",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
