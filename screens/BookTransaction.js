@@ -42,18 +42,15 @@ export default class Transaction extends React.Component {
 		if (!transactionType) {
 			Alert.alert('Book not Found');
 			this.setState({ scannedStudentId: '', scannedBookId: '' });
-		} else if (transactionType == 'Issue') {
+		} else if (transactionType === 'Issue') {
 			var isStudentEligible = await this.checkStudentEligibilityForBookIssue();
-			if (isStudentEligible) {
-				this.initiateBookIssued();
-				Alert.alert('Book Issued');
-			} else {
-				isStudentEligible = await this.checkStudentEligibilityForBookReturn();
-				if (isStudentEligible) {
-					this.initiateBookReturned();
-					Alert.alert('Book Returned');
-				}
-			}
+			if (isStudentEligible) this.initiateBookIssued();
+			Alert.alert('Book Issued');
+		} else {
+			var isStudentEligible = await this.checkStudentEligibilityForBookReturn();
+			if (isStudentEligible) this.initiateBookReturn();
+			console.log(transactionType);
+			Alert.alert('Book Returned');
 		}
 	};
 	initiateBookIssued = async () => {
@@ -98,7 +95,7 @@ export default class Transaction extends React.Component {
 			.get();
 		var transactionType = '';
 		if (bookRef.docs.length == 0) {
-			transactionType = false;
+			transactionType = 'false';
 		} else {
 			bookRef.docs.map((doc) => {
 				var book = doc.data();
@@ -223,6 +220,7 @@ export default class Transaction extends React.Component {
 						style={styles.submitButton}
 						onPress={async () => {
 							var transactionMessage = this.handleTransaction();
+							console.log(transactionMessage);
 						}}>
 						<Text style={styles.submitButtonText}>Submit</Text>
 					</TouchableOpacity>
